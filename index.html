@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevTask: organize atividades, trabalhos e prazos escolares em um só lugar.">
+<title>DevTask | Sua rotina escolar organizada</title>
+<style>
+:root{--blue:#2457d6;--dark:#173a83;--pale:#edf3ff;--text:#17233c;--muted:#65728a;--bg:#f7f9fd;--line:#e5eaf3}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--text);line-height:1.6}
+a{text-decoration:none;color:inherit}
+.container{width:min(1120px,90%);margin:auto}
+header{position:sticky;top:0;z-index:5;background:#ffffffed;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:800;color:var(--dark)}
+.logo{display:grid;place-items:center;width:42px;height:42px;background:var(--blue);color:white;border-radius:13px}
+.navlinks{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:.92rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border:1px solid transparent;border-radius:11px;background:var(--blue);color:white;font-weight:700;cursor:pointer;transition:.2s}
+.btn:hover{background:var(--dark);transform:translateY(-1px)}
+.btn.light{background:white;color:var(--blue);border-color:#cdd9f4}
+.btn.light:hover{background:var(--pale)}
+.hero{background:linear-gradient(135deg,#f1f6ff,white 70%);padding:76px 0}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.tag{display:inline-block;padding:7px 12px;border-radius:30px;background:#e3edff;color:var(--dark);font-weight:700;font-size:.82rem;margin-bottom:20px}
+h1{font-size:clamp(2.5rem,5vw,4.2rem);line-height:1.08;letter-spacing:-1.8px;margin-bottom:20px}
+h1 span{color:var(--blue)}
+.intro{font-size:1.08rem;color:var(--muted);max-width:550px;margin-bottom:26px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.small{font-size:.86rem;color:var(--muted)}
+.mockup{background:white;border:1px solid var(--line);border-radius:23px;padding:23px;box-shadow:0 18px 45px #1f41821a}
+.mockhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.muted{color:var(--muted);font-size:.86rem}
+.avatar{display:grid;place-items:center;width:40px;height:40px;background:#dce8ff;color:var(--dark);border-radius:50%;font-weight:800}
+.mockup h3{font-size:1.3rem;margin:4px 0 16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:22px}
+.stat{background:var(--bg);border-radius:12px;padding:12px 9px}
+.stat b{display:block;font-size:1.4rem;color:var(--dark)}
+.stat span{font-size:.72rem;color:var(--muted)}
+.rowtitle{display:flex;justify-content:space-between;font-weight:800;font-size:.92rem;margin-bottom:8px}
+.task{display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid var(--line)}
+.taskicon{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--pale);font-size:1.1rem}
+.taskinfo{flex:1;min-width:0}
+.taskinfo b{display:block;font-size:.85rem}
+.taskinfo span{display:block;font-size:.75rem;color:var(--muted)}
+.pill{background:#fff2d8;color:#975600;border-radius:7px;padding:4px 7px;font-size:.7rem;white-space:nowrap}
+section{padding:76px 0}
+.soft{background:var(--bg)}
+.sectionhead{text-align:center;max-width:690px;margin:0 auto 38px}
+.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;color:var(--blue);margin-bottom:8px}
+h2{font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.2;letter-spacing:-.7px;margin-bottom:13px}
+.sectionhead p,.bodytext{color:var(--muted)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:28px}
+.panel.solution{background:var(--dark);color:white;border-color:var(--dark)}
+.bigicon{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--pale);font-size:1.4rem;margin-bottom:14px}
+.solution .bigicon{background:#ffffff20}
+.panel h3{font-size:1.2rem;margin-bottom:9px}
+.panel p{color:var(--muted)}
+.panel.solution p{color:#dbe6ff}
+.checklist{list-style:none;display:grid;gap:9px;margin-top:16px}
+.checklist li:before{content:"✓";font-weight:800;color:var(--blue);margin-right:9px}
+.solution .checklist li:before{color:#9bbcff}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature{border:1px solid var(--line);border-radius:17px;padding:25px;background:white;transition:.2s}
+.feature:hover{transform:translateY(-4px);box-shadow:0 16px 38px #1f41821a}
+.feature .bigicon{margin-bottom:15px}
+.feature h3{font-size:1.06rem;margin-bottom:7px}
+.feature p{font-size:.93rem;color:var(--muted)}
+.audience{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.audiencebox{background:#e8f0ff;border-radius:20px;padding:28px}
+.audiencebox strong{display:block;font-size:1.15rem;color:var(--dark);margin-bottom:8px}
+.audiencebox p{color:#455a7e}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.chips span{background:white;border:1px solid #d7e2f8;border-radius:30px;padding:7px 11px;font-size:.82rem;color:var(--dark)}
+.cta{padding:54px 0}
+.ctabox{text-align:center;background:linear-gradient(130deg,#173a83,#2864e8);color:white;border-radius:23px;padding:46px 24px}
+.ctabox h2{max-width:660px;margin:0 auto 13px}
+.ctabox p{max-width:620px;margin:0 auto 22px;color:#e0e9ff}
+.ctabox .btn{background:white;color:var(--dark)}
+.ctabox .btn:hover{background:#edf3ff}
+.notice{font-size:.78rem!important;margin-top:13px!important}
+footer{background:#101e3a;color:#d5def1;padding:25px 0;font-size:.87rem}
+.footerrow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer strong{color:white}
+.toast{position:fixed;right:20px;bottom:20px;z-index:10;max-width:340px;background:#14264b;color:white;padding:15px 18px;border-radius:12px;box-shadow:0 10px 35px #0002;display:none}
+.toast.show{display:block}
+@media(max-width:850px){.navlinks{gap:12px}.navlinks a:not(.btn){display:none}.hero-grid,.compare,.audience{grid-template-columns:1fr}.hero-grid{gap:35px}.features{grid-template-columns:repeat(2,1fr)}section{padding:60px 0}}
+@media(max-width:560px){nav{min-height:66px}.brand{font-size:1.15rem}.logo{width:37px;height:37px}.navlinks .btn{font-size:.78rem;padding:10px}.hero{padding:54px 0}.actions .btn{width:100%}.mockup{padding:16px}.stats{gap:5px}.stat{padding:9px 6px}.stat b{font-size:1.2rem}.stat span{font-size:.65rem}.pill{display:none}.features{grid-template-columns:1fr}.panel{padding:22px}.ctabox{padding:36px 18px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <a class="brand" href="#inicio"><span class="logo">✓</span><span>DevTask</span></a>
+      <div class="navlinks">
+        <a href="#solucao">A solução</a>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#publico">Público-alvo</a>
+        <a class="btn" href="#conhecer">Conheça o projeto ↗</a>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div>
+        <div class="tag">Organização escolar sem complicação</div>
+        <h1>Seus trabalhos em dia. <span>Sua rotina mais leve.</span></h1>
+        <p class="intro">O DevTask é uma proposta de aplicativo para ajudar estudantes a organizar atividades, acompanhar prazos e planejar trabalhos em grupo em um só lugar.</p>
+        <div class="actions">
+          <a class="btn" href="#funcionalidades">Conheça as funções →</a>
+          <a class="btn light" href="#solucao">Como funciona?</a>
+        </div>
+        <p class="small">Projeto de startup • IFMA Campus Viana • Desenvolvimento de Sistemas</p>
+      </div>
+      <div class="mockup">
+        <div class="mockhead"><div><div class="muted">Painel do estudante</div><strong>Olá, estudante!</strong></div><div class="avatar">D</div></div>
+        <h3>Resumo das atividades</h3>
+        <div class="stats">
+          <div class="stat"><b>04</b><span>Em andamento</span></div>
+          <div class="stat"><b>02</b><span>Próximos prazos</span></div>
+          <div class="stat"><b>08</b><span>Concluídas</span></div>
+        </div>
+        <div class="rowtitle"><span>Próximas atividades</span><span style="color:#2457d6">Ver todas</span></div>
+        <div class="task"><div class="taskicon">⌨</div><div class="taskinfo"><b>Projeto de Desenvolvimento Web</b><span>Desenvolvimento Web</span></div><span class="pill">Em breve</span></div>
+        <div class="task"><div class="taskicon">▤</div><div class="taskinfo"><b>Trabalho de SQL</b><span>Banco de Dados</span></div><span class="pill">Pendente</span></div>
+        <div class="task"><div class="taskicon">⌘</div><div class="taskinfo"><b>Exercício de programação</b><span>Programação</span></div><span class="pill">Pendente</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="soft" id="solucao">
+    <div class="container">
+      <div class="sectionhead"><div class="eyebrow">O problema e a solução</div><h2>Menos confusão. Mais organização.</h2><p>Quando as informações ficam espalhadas, acompanhar todas as atividades pode ser difícil. O DevTask propõe reunir tudo em um só lugar.</p></div>
+      <div class="compare">
+        <article class="panel"><div class="bigicon">🗂️</div><h3>O problema</h3><p>Estudantes recebem atividades em grupos de mensagens, cadernos e diferentes plataformas. Com tantas informações, fica mais difícil lembrar de todos os prazos.</p><ul class="checklist"><li>Datas de entrega fáceis de esquecer</li><li>Informações espalhadas em vários lugares</li><li>Dificuldade para acompanhar trabalhos em grupo</li></ul></article>
+        <article class="panel solution"><div class="bigicon">✓</div><h3>A proposta do DevTask</h3><p>Uma ferramenta de organização pessoal para o estudante registrar suas próprias atividades e acompanhar o que precisa fazer.</p><ul class="checklist"><li>Reunir atividades e prazos</li><li>Acompanhar o andamento das tarefas</li><li>Planejar as responsabilidades do grupo</li></ul></article>
+      </div>
+    </div>
+  </section>
+  <section id="funcionalidades">
+    <div class="container">
+      <div class="sectionhead"><div class="eyebrow">O que o DevTask oferece</div><h2>Ferramentas para ajudar na rotina</h2><p>Funções pensadas para tornar a organização das atividades escolares mais simples.</p></div>
+      <div class="features">
+        <article class="feature"><div class="bigicon">📅</div><h3>Controle de prazos</h3><p>Registre as datas de entrega e consulte quais atividades precisam de atenção.</p></article>
+        <article class="feature"><div class="bigicon">📝</div><h3>Minhas atividades</h3><p>Cadastre trabalhos, provas, exercícios e projetos, com disciplina e descrição.</p></article>
+        <article class="feature"><div class="bigicon">👥</div><h3>Trabalhos em grupo</h3><p>Organize as tarefas e acompanhe as responsabilidades de cada integrante.</p></article>
+        <article class="feature"><div class="bigicon">📌</div><h3>Status das tarefas</h3><p>Identifique o que ainda não começou, o que está em andamento e o que foi concluído.</p></article>
+        <article class="feature"><div class="bigicon">🎯</div><h3>Visão organizada</h3><p>Tenha uma visão geral das atividades cadastradas para planejar melhor sua rotina.</p></article>
+        <article class="feature"><div class="bigicon">⚡</div><h3>Fácil de usar</h3><p>Uma proposta direta, com informações claras e funções voltadas aos estudantes.</p></article>
+      </div>
+    </div>
+  </section>
+  <section class="soft" id="publico">
+    <div class="container audience">
+      <div><div class="eyebrow">Para quem é</div><h2>Feito pensando na vida de estudante.</h2><p class="bodytext">O público-alvo do DevTask são estudantes que precisam acompanhar várias atividades, disciplinas e datas de entrega durante o período letivo.</p></div>
+      <div class="audiencebox"><strong>Nosso público inicial</strong><p>Estudantes do IFMA Campus Viana, especialmente do curso Técnico em Desenvolvimento de Sistemas. A proposta também pode ser útil para outros estudantes.</p><div class="chips"><span>Ensino médio</span><span>Curso técnico</span><span>Trabalhos individuais</span><span>Trabalhos em grupo</span></div></div>
+    </div>
+  </section>
+  <section class="cta" id="conhecer">
+    <div class="container"><div class="ctabox"><h2>Organize suas tarefas. Acompanhe seus objetivos.</h2><p>O DevTask busca tornar a rotina escolar mais organizada, reunindo atividades e prazos em uma única proposta.</p><button class="btn" id="interesse" type="button">Tenho interesse no DevTask ↗</button><p class="notice">Este é um protótipo de apresentação. O botão demonstra a interação da página e não realiza cadastro.</p></div></div>
+  </section>
+</main>
+<footer><div class="container footerrow"><div><strong>DevTask</strong> — Central de Trabalhos</div><div>Projeto acadêmico • IFMA Campus Viana</div></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite">Obrigado pelo interesse! O DevTask é uma proposta em desenvolvimento. 💙</div>
+<script>
+const botao = document.getElementById("interesse");
+const aviso = document.getElementById("toast");
+botao.addEventListener("click", function () {
+  aviso.classList.add("show");
+  botao.textContent = "Interesse demonstrado ✓";
+  window.setTimeout(function () {
+    aviso.classList.remove("show");
+    botao.textContent = "Tenho interesse no DevTask ↗";
+  }, 4000);
+});
+</script>
+</body>
+</html>
